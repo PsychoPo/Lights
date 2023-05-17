@@ -714,14 +714,7 @@ namespace Lights
 
 
             /*string script1 = "<script type='text/javascript'>openModal();</script>";
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "openModal", script1);
-            label_result.Text = label_time.Text;*/
-
-            /*if (!IsPostBack)
-            {
-                // Установка начального времени
-                startTime = DateTime.Now;
-            }*/
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "openModal", script1);*/
         }
 
         protected void ImageButton_Click(object sender, ImageClickEventArgs e)
