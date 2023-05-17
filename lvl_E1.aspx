@@ -80,19 +80,6 @@
             border: 1px solid #888;
             width: 80%;
         }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body onload="init()">
@@ -102,10 +89,9 @@
 
                 <div id="myModal" class="modal">
                     <div class="modal-content">
-                        <span class="close" onclick="closeModal()">&times;</span>
                         <h2>Победа!</h2>
-                        <p>Вы успешно справились в данным уровнем!!!</p>
                         <asp:Label ID="label_result" runat="server"></asp:Label>
+                        <p>Вы успешно справились в данным уровнем!!!</p>
                         <div class="modal-buttons">
                             <asp:Button runat="server" Text="Назад к уровням" OnClick="Back_Click"></asp:Button>
                             <asp:Button runat="server" Text="Попробовать заново" OnClick="remove_Click"></asp:Button>
@@ -166,16 +152,19 @@
                 <div class="footer"></div>
             </div>
         <script>
-            // Открыть модальное окно
+            // Открыть модальное окно и установить результирующее время
             function openModal() {
                 document.getElementById("myModal").style.display = "block";
+                var label_res = document.getElementById("label_result");
+                var label_time = document.getElementById("label_time");
+                label_res.innerText = label_time.innerText;
+
             }
 
             // Закрыть модальное окно
             function closeModal() {
                 document.getElementById("myModal").style.display = "none";
             }
-            //function pageLoad(){ alert('page loaded!') }
         </script>
     </form>
 </body>

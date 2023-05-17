@@ -14,6 +14,8 @@ using System.Threading;
 using System.Reflection.Emit;
 using System.Reflection;
 using System.Diagnostics;
+using System.Windows.Forms;
+using System.Web.Optimization;
 
 namespace Lights
 {
@@ -607,9 +609,6 @@ namespace Lights
             if (t == 0)
             {
                 Var.StartTime = DateTime.Now;
-                Var.Stop = false;
-                /*TimeSpan elapsedTime = TimeSpan.FromTicks(Var.StartTime.Ticks);
-                Label2.Text = string.Format("{0:00}:{1:00}:{2:00}", elapsedTime.Hours, elapsedTime.Minutes, elapsedTime.Seconds);*/
                 
                 string query = String.Format("SELECT * FROM Easy WHERE IDe = '{0}'", IDe);
                 SqlCommand command = new SqlCommand(query, sqlConnection);
@@ -693,30 +692,12 @@ namespace Lights
             // Отображение времени на странице
             label_time.Text = string.Format("{0:00}:{1:00}:{2:00}", elapsedTime.Hours, elapsedTime.Minutes, elapsedTime.Seconds); ;
         }
-        protected void result()
-        {
-            string script = "<script type='text/javascript'>openModal();</script>";
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "openModal", script);
-            label_result.Text = label_time.Text;
-        }
         protected void Page_Load(object sender, EventArgs e)
         {
             connect();
             light(P_i, P_j, P_pos, false);
-            if (Var.Stop)
-            {
-                string script = "<script type='text/javascript'>openModal();</script>";
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "openModal", script);
-                label_result.Text = label_time.Text;
-            }
-            else
-                timer.Enabled = true;
-
-
-            /*string script1 = "<script type='text/javascript'>openModal();</script>";
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "openModal", script1);*/
+            timer.Enabled = true;
         }
-
         protected void ImageButton_Click(object sender, ImageClickEventArgs e)
         {
             string index = ((ImageButton)sender).ID;
@@ -743,12 +724,12 @@ namespace Lights
 
             light(P_i, P_j, P_pos, false);
 
-            if (check()) //Вот вэтом месте добавить вывод контейнера (диалогового окна) с кнопками и результатом!!!
+            if (check()) //Проверка на правильность решения и вывод окна с результатами
             {
                 timer.Enabled = false;
-                Var.Stop = true;
-                string script = "<script type='text/javascript'>pageLoad();</script>";
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "pageLoad", script);
+
+                string script = "<script type='text/javascript'>openModal();</script>";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "openModal", script, false);
             }
         }
 
@@ -766,8 +747,9 @@ namespace Lights
             SqlCommand delete = new SqlCommand(delete_query, sqlConnection);
             delete.ExecuteNonQuery();
             Response.Redirect(Request.RawUrl);
+
             string script = "<script type='text/javascript'>closeModal();</script>";
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "closeModal", script);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "closeModal", script, false);
         }
     }
 }
