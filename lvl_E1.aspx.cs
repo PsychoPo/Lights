@@ -24,7 +24,6 @@ namespace Lights
     {
         private SqlConnection sqlConnection = null;
         SqlCommand edit_command;
-        //private DateTime startTime; // Начальное время
         string[,] array = new string[3, 3];
         int[,] true_array = new int[3, 3] { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } };
         int IDa = Var.ID_a;
